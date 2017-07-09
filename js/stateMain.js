@@ -40,15 +40,18 @@ var StateMain = {
     },
 
     update: function () {
+      // Make robot collide with map
       game.physics.arcade.collide(this.robot, this.layer);
 
-      // Check if walking or idle and play animation
-      if (Math.abs(this.robot.body.velocity.x) > 100) {
-        this.robot.animations.play('walk');
-      } else {
-        this.robot.animations.play('idle');
+      // Make sure robot on floor
+      if (this.robot.body.onFloor()) {
+        // Play walking or idle animation
+        if (Math.abs(this.robot.body.velocity.x) > 100) {
+          this.robot.animations.play('walk');
+        } else {
+          this.robot.animations.play('idle');
+        }
       }
-
       // Check which way robot should face
       if (this.robot.body.velocity.x > 0) {
         this.robot.scale.x = 1;
@@ -63,6 +66,13 @@ var StateMain = {
       // Move right
       if (cursors.right.isDown) {
         this.robot.body.velocity.x = 250;
+      }
+      // jump
+      if (cursors.up.isDown) {
+        if (this.robot.body.onFloor()) {
+          this.robot.body.velocity.y = -Math.abs(this.robot.body.velocity.x) - 100;
+          this.robot.animations.play('jump');
+        }
       }
     }
 
