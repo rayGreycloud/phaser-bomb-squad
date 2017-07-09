@@ -1,14 +1,21 @@
 var StateMain = {
 
     preload: function () {
+      var mapPath = `assets/maps/map${level}.json`;
+
       // Load robot spritesheet
       game.load.spritesheet('robot', 'assets/images/main/robot.png', 80, 111, 28);
       // Load tiles and tilemap
       game.load.image('tiles', 'assets/images/tiles.png');
-      game.load.tilemap('map', 'assets/maps/map1.json', null, Phaser.Tilemap.TILED_JSON);
+      game.load.tilemap('map', mapPath, null, Phaser.Tilemap.TILED_JSON);
     },
 
     create: function () {
+      // Array of bombs per level
+      this.bombCount = [4, 10];
+      this.need = this.bombCount [level - 1];
+      this.collected = 0;
+
       // Start physics
       game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -55,6 +62,11 @@ var StateMain = {
 
     gotBomb: function (sprite, tile) {
       this.map.removeTile(tile.x, tile.y, this.layer);
+      this.collected++;
+      if (this.collected == this.need) {
+        level++;
+        game.state.start('StateMain');
+      }
     },
 
     update: function () {
