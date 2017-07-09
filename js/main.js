@@ -1,4 +1,5 @@
 var game;
+var cursors;
 
 window.onload = function () {
 
@@ -8,5 +9,5 @@ window.onload = function () {
   game = new Phaser.Game(width, height, Phaser.AUTO, 'ph_game');
   game.state.add('StateMain', StateMain);
   game.state.start('StateMain');
-  
+
 }
