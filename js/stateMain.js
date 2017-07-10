@@ -10,6 +10,8 @@ var StateMain = {
       game.load.tilemap('map', mapPath, null, Phaser.Tilemap.TILED_JSON);
       // Load gamepad
       game.load.spritesheet('arrow', 'assets/images/arrowButtons.png', 60, 60, 4);
+      // Load monster
+      game.load.spritesheet('monster', 'assets/images/main/monsters.png', 50, 50, 2);
     },
 
     create: function () {
@@ -37,6 +39,16 @@ var StateMain = {
       this.downArrow = game.add.sprite(0, 50, 'arrow');
       this.leftArrow = game.add.sprite(-50, 25, 'arrow');
       this.rightArrow = game.add.sprite(50, 25, 'arrow');
+
+      this.upArrow.inputEnabled = true;
+      this.downArrow.inputEnabled = true;
+      this.leftArrow.inputEnabled = true;
+      this.rightArrow.inputEnabled = true;
+
+      this.upArrow.events.onInputDown.add(this.doJump, this);
+      this.downArrow.events.onInputDown.add(this.doStop, this);
+      this.leftArrow.events.onInputDown.add(this.goLeft, this);
+      this.rightArrow.events.onInputDown.add(this.goRight, this);
 
       this.upArrow.frame = 0;
       this.downArrow.frame = 1;
@@ -74,8 +86,13 @@ var StateMain = {
       this.robot.animations.play('idle');
       // Robot anchor
       this.robot.anchor.set(0.5, 0.5);
-      // Robot physics
-      game.physics.arcade.enable(this.robot);
+
+      // monster
+      this.monsterGroup = game.add.group();
+      this.monsterGroup.createMultiple(10, 'monster');
+
+      // Enable physics
+      game.physics.arcade.enable([this.robot, this.monsterGroup]);
       // Robot gravity
       this.robot.body.gravity.y = 100;
       // Bounce factor
@@ -88,9 +105,27 @@ var StateMain = {
 
       // Pick up bomb
       this.map.setTileIndexCallback(25, this.gotBomb, this);
+
+      // Create monsters
+      this.makeMonsters();
+    },
+
+    makeMonsters: function () {
+      for (var i = 0; i < 10; i++) {
+        var monster = this.monsterGroup.getFirstDead();
+        var xx = game.rnd.integerInRange(0, game.world.width);
+        monster.reset(xx, 50);
+        monster.enabled = true;
+        monster.body.velocity.x = -100;
+        monster.body.gravity.y = 100;
+        monster.body.collideWorldBounds = true;
+        monster.name = 'monster';
+      }
     },
 
     gotBomb: function (sprite, tile) {
+      if (sprite.name == 'monster') { return; }
+
       this.map.removeTile(tile.x, tile.y, this.layer);
       this.collected++;
       if (this.collected == this.need) {
@@ -100,8 +135,9 @@ var StateMain = {
     },
 
     update: function () {
-      // Make robot collide with map
+      // Make robot and monsters collide with map
       game.physics.arcade.collide(this.robot, this.layer);
+      game.physics.arcade.collide(this.monsterGroup, this.layer);
 
       // Make sure robot on floor
       if (this.robot.body.onFloor()) {
@@ -121,23 +157,39 @@ var StateMain = {
 
       // Move left
       if (cursors.left.isDown) {
-        this.robot.body.velocity.x = -250;
+        this.goLeft();
       }
       // Move right
       if (cursors.right.isDown) {
-        this.robot.body.velocity.x = 250;
+        this.goRight();
       }
-      // jump
+      // Jump
       if (cursors.up.isDown) {
-        if (this.robot.body.onFloor()) {
-          this.robot.body.velocity.y = -Math.abs(this.robot.body.velocity.x) - 100;
-          this.robot.animations.play('jump');
-        }
+        this.doJump();
       }
-
+      // Stop
       if (cursors.down.isDown) {
-        this.robot.body.velocity.x = 0;
-        this.robot.body.velocity.y = 0;
+        this.doStop();
+      }
+    },
+
+    goLeft: function () {
+      this.robot.body.velocity.x = -250;
+    },
+
+    goRight: function () {
+      this.robot.body.velocity.x = 250;
+    },
+
+    doStop: function () {
+      this.robot.body.velocity.x = 0;
+      this.robot.body.velocity.y = 0;
+    },
+
+    doJump: function () {
+      if (this.robot.body.onFloor()) {
+        this.robot.body.velocity.y = -Math.abs(this.robot.body.velocity.x) - 100;
+        this.robot.animations.play('jump');
       }
     }
 
