@@ -108,6 +108,8 @@ var StateMain = {
 
       // Create monsters
       this.makeMonsters();
+
+      game.world.bringToTop(this.buttonGroup);
     },
 
     makeMonsters: function () {
@@ -146,11 +148,20 @@ var StateMain = {
       }
     },
 
+    hitMonster: function(player, monster) {
+      if (player.y < monster.y) {
+        monster.kill();
+      } else {
+        console.log('game over');
+      }
+    },
+
     update: function () {
       // Make robot and monsters collide with map
       game.physics.arcade.collide(this.robot, this.layer);
       game.physics.arcade.collide(this.monsterGroup, this.layer);
       game.physics.arcade.collide(this.monsterGroup, this.layer, null, this.reverseMonster);
+      game.physics.arcade.collide(this.robot, this.monsterGroup, null, this.hitMonster);
 
       // Make sure robot on floor
       if (this.robot.body.onFloor()) {
