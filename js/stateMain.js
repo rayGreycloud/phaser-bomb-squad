@@ -12,6 +12,9 @@ var StateMain = {
       game.load.spritesheet('arrow', 'assets/images/arrowButtons.png', 60, 60, 4);
       // Load monster
       game.load.spritesheet('monster', 'assets/images/main/monsters.png', 50, 50, 2);
+      // Load timer bars
+      game.load.image('bar1', 'assets/images/timer/bar1.png');
+      game.load.image('bar2', 'assets/images/timer/bar2.png');
     },
 
     create: function () {
@@ -72,6 +75,15 @@ var StateMain = {
         game.height - this.buttonGroup.height
       );
 
+      // Timer
+      this.bar2 = game.add.image(0, 0, 'bar2');
+      this.bar1 = game.add.image(0, 0, 'bar1');
+      this.timerGroup = game.add.group();
+      this.timerGroup.add(this.bar2);
+      this.timerGroup.add(this.bar1);
+      this.timerGroup.fixedToCamera = true;
+      this.timerGroup.cameraOffset.setTo(game.width / 2 - this.timerGroup.width / 2, 15);
+
       // Create robot
       this.robot = game.add.sprite(150, 150, 'robot');
       // Create Animations
@@ -110,6 +122,17 @@ var StateMain = {
       this.makeMonsters();
 
       game.world.bringToTop(this.buttonGroup);
+      game.world.bringToTop(this.timerGroup);
+
+      game.time.events.loop(Phaser.Timer.SECOND / 2, this.tick, this);
+    },
+
+    tick: function () {
+      if (this.bar1.width > 1) {
+        this.bar1.width--;
+      } else {
+
+      }
     },
 
     makeMonsters: function () {
