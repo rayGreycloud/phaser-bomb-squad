@@ -120,6 +120,9 @@ var StateMain = {
         monster.body.gravity.y = 100;
         monster.body.collideWorldBounds = true;
         monster.name = 'monster';
+
+        monster.animations.add('move', [0, 1], 12, true);
+        monster.animations.play('move');
       }
     },
 
@@ -134,10 +137,20 @@ var StateMain = {
       }
     },
 
+    reverseMonster: function(monster, layer) {
+      if (monster.body.blocked.left == true) {
+        monster.body.velocity.x = 100;
+      }
+      if (monster.body.blocked.right == true) {
+        monster.body.velocity.x = -100;
+      }
+    },
+
     update: function () {
       // Make robot and monsters collide with map
       game.physics.arcade.collide(this.robot, this.layer);
       game.physics.arcade.collide(this.monsterGroup, this.layer);
+      game.physics.arcade.collide(this.monsterGroup, this.layer, null, this.reverseMonster);
 
       // Make sure robot on floor
       if (this.robot.body.onFloor()) {
