@@ -173,6 +173,10 @@ var StateMain = {
       }
     },
 
+    render: function () {
+      game.debug.bodyInfo(this.robot, 20, 20);
+    },
+
     goLeft: function () {
       this.robot.body.velocity.x = -250;
     },
