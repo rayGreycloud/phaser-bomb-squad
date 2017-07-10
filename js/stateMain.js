@@ -8,6 +8,8 @@ var StateMain = {
       // Load tiles and tilemap
       game.load.image('tiles', 'assets/images/tiles.png');
       game.load.tilemap('map', mapPath, null, Phaser.Tilemap.TILED_JSON);
+      // Load gamepad
+      game.load.spritesheet('arrow', 'assets/images/arrowButtons.png', 60, 60, 4);
     },
 
     create: function () {
@@ -29,6 +31,34 @@ var StateMain = {
       this.layer = this.map.createLayer('Tile Layer 1');
       this.layer.resizeWorld();
       this.map.setCollisionBetween(0, 24);
+
+      // Gamepad
+      this.upArrow = game.add.sprite(0, 0, 'arrow');
+      this.downArrow = game.add.sprite(0, 50, 'arrow');
+      this.leftArrow = game.add.sprite(-50, 25, 'arrow');
+      this.rightArrow = game.add.sprite(50, 25, 'arrow');
+
+      this.upArrow.frame = 0;
+      this.downArrow.frame = 1;
+      this.leftArrow.frame = 2;
+      this.rightArrow.frame = 3;
+
+      this.upArrow.anchor.set(0.5, 0.5);
+      this.downArrow.anchor.set(0.5, 0.5);
+      this.leftArrow.anchor.set(0.5, 0.5);
+      this.rightArrow.anchor.set(0.5, 0.5);
+
+      this.buttonGroup = game.add.group();
+      this.buttonGroup.add(this.upArrow);
+      this.buttonGroup.add(this.downArrow);
+      this.buttonGroup.add(this.leftArrow);
+      this.buttonGroup.add(this.rightArrow);
+
+      this.buttonGroup.fixedToCamera = true;
+      this.buttonGroup.cameraOffset.setTo(
+        game.width - this.buttonGroup.width / 2,
+        game.height - this.buttonGroup.height
+      );
 
       // Create robot
       this.robot = game.add.sprite(150, 150, 'robot');
