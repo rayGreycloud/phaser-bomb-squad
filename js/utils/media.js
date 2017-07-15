@@ -36,8 +36,10 @@ GameMedia = function () {
   },
 
   this.playSound = function (sound) {
-    if (soundOn == true) {
-      sound.play();
+    if (sound) {
+      if (soundOn == true) {
+        sound.play();
+      }
     }
   }
 }
