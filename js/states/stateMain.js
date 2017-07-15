@@ -149,6 +149,11 @@ var StateMain = {
       }
     },
 
+    doGameOver: function () {
+      gameMedia.playSound(this.boomSound);
+      game.state.start('StateOver');
+    },
+
     tick: function () {
       if (this.bar1.width > 1) {
         this.bar1.width--;
@@ -160,11 +165,6 @@ var StateMain = {
       }
     },
 
-    doGameOver: function () {
-      gameMedia.playSound(this.boomSound);
-      game.state.start('StateOver');
-    },
-
     makeMonsters: function () {
       for (var i = 0; i < 10; i++) {
         var monster = this.monsterGroup.getFirstDead();
@@ -172,6 +172,7 @@ var StateMain = {
         monster.reset(xx, 50);
         monster.enabled = true;
         monster.body.velocity.x = -100;
+        monster.scale.x = 1;
         monster.body.gravity.y = 100;
         monster.body.collideWorldBounds = true;
         monster.name = 'monster';
@@ -199,9 +200,11 @@ var StateMain = {
 
     reverseMonster: function(monster, layer) {
       if (monster.body.blocked.left == true) {
+        monster.scale.x = -1;
         monster.body.velocity.x = 100;
       }
       if (monster.body.blocked.right == true) {
+        monster.scale.x = 1;
         monster.body.velocity.x = -100;
       }
     },
@@ -210,7 +213,7 @@ var StateMain = {
       if (player.y < monster.y) {
         monster.kill();
       } else {
-        this.doGameOver();
+      this.doGameOver();
       }
     },
 
@@ -219,7 +222,7 @@ var StateMain = {
       game.physics.arcade.collide(this.robot, this.layer);
       game.physics.arcade.collide(this.monsterGroup, this.layer);
       game.physics.arcade.collide(this.monsterGroup, this.layer, null, this.reverseMonster);
-      game.physics.arcade.collide(this.robot, this.monsterGroup, null, this.hitMonster);
+      game.physics.arcade.collide(this.robot, this.monsterGroup, this.hitMonster, null, this);
 
       // Make sure robot on floor
       if (this.robot.body.onFloor()) {

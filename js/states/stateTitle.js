@@ -5,7 +5,7 @@ var StateTitle = {
 
   create: function () {
     // display game title
-    var titleText = game.add.text(game.world.centerX, game.world.centerY - 100, 'Game Title');
+    var titleText = game.add.text(game.world.centerX, game.world.centerY - 100, 'Robot Bomb Squad');
     titleText.fill = '#ffffff';
     titleText.anchor.set(0.5, 0.5);
     // Add start button
