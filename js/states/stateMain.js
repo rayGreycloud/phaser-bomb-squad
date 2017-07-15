@@ -151,7 +151,7 @@ var StateMain = {
 
     doGameOver: function () {
       gameMedia.playSound(this.boomSound);
-      game.state.start('StateOver');
+      game.state.start("StateOver");
     },
 
     tick: function () {
