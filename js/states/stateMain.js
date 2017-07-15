@@ -140,14 +140,27 @@ var StateMain = {
       game.world.bringToTop(this.timerGroup);
 
       game.time.events.loop(Phaser.Timer.SECOND / 2, this.tick, this);
+
+      // Remove gamepad if desktop
+      if (screen.width > 1500) {
+        this.buttonGroup.visible = false;
+      }
     },
 
     tick: function () {
       if (this.bar1.width > 1) {
         this.bar1.width--;
+        if (Math.floor(this.bar1.width) == 50) {
+          gameMedia.playSound(this.tickSound);
+        }
       } else {
-
+        this.doGameOver();
       }
+    },
+
+    doGameOver: function () {
+      gameMedia.playSound(this.boomSound);
+      game.state.start('StateOver');
     },
 
     makeMonsters: function () {
