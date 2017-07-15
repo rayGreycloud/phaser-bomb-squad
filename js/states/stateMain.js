@@ -28,6 +28,16 @@ var StateMain = {
       this.jumpSound = game.add.audio('jump');
       this.tickSound = game.add.audio('tick');
 
+      // Background music
+      // Define
+      this.backgroundMusic = game.add.audio('backgroundMusic');
+      // Add to game object
+      gameMedia.setBackgroundMusic(this.backgroundMusic);
+      // Initialize music
+      gameMedia.updateMusic();
+      // Initialize sound buttons
+      gameButtons.updateButtons();
+
       // Start physics
       game.physics.startSystem(Phaser.Physics.ARCADE);
 
