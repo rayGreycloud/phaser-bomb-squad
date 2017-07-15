@@ -7,6 +7,8 @@ var StateMain = {
     },
 
     create: function () {
+      // Set number of maps/levels
+      this.numberOfMaps = 2;
       // Array of bombs per level
       this.bombCount = [4, 10];
       this.need = this.bombCount [level - 1];
@@ -184,8 +186,13 @@ var StateMain = {
 
       this.map.removeTile(tile.x, tile.y, this.layer);
       this.collected++;
+      gameMedia.playSound(this.collectSound);
       if (this.collected == this.need) {
         level++;
+
+        if (level > this.numberOfMaps) {
+          level = 1;
+        }
         game.state.start('StateMain');
       }
     },
@@ -203,7 +210,7 @@ var StateMain = {
       if (player.y < monster.y) {
         monster.kill();
       } else {
-        console.log('game over');
+        this.doGameOver();
       }
     },
 
