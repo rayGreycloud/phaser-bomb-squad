@@ -168,7 +168,7 @@ var StateMain = {
     makeMonsters: function () {
       for (var i = 0; i < 10; i++) {
         var monster = this.monsterGroup.getFirstDead();
-        var xx = game.rnd.integerInRange(0, game.world.width);
+        var xx = game.rnd.integerInRange(100, game.world.width);
         monster.reset(xx, 50);
         monster.enabled = true;
         monster.body.velocity.x = -100;
