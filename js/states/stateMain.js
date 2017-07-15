@@ -12,6 +12,22 @@ var StateMain = {
       this.need = this.bombCount [level - 1];
       this.collected = 0;
 
+      this.btnMusic = gameButtons.addAudioButton('music', 20, 20, gameButtons.toggleMusic, this);
+      this.btnSound = gameButtons.addAudioButton('sound', 20, 70, gameButtons.toggleSound, this);
+
+      // For scrolling game - fix position
+      this.audioGroup = game.add.group();
+      this.audioGroup.add(this.btnMusic);
+      this.audioGroup.add(this.btnSound);
+      this.audioGroup.fixedToCamera = true;
+      this.audioGroup.cameraOffset.setTo(0, 0);
+
+      // Define sounds
+      this.boomSound = game.add.audio('boom');
+      this.collectSound = game.add.audio('collect');
+      this.jumpSound = game.add.audio('jump');
+      this.tickSound = game.add.audio('tick');
+
       // Start physics
       game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -210,7 +226,7 @@ var StateMain = {
     },
 
     render: function () {
-      game.debug.bodyInfo(this.robot, 20, 20);
+      // game.debug.bodyInfo(this.robot, 20, 20);
     },
 
     goLeft: function () {
@@ -230,6 +246,8 @@ var StateMain = {
       if (this.robot.body.onFloor()) {
         this.robot.body.velocity.y = -Math.abs(this.robot.body.velocity.x) - 100;
         this.robot.animations.play('jump');
+        // Play sound
+        gameMedia.playSound(this.jumpSound);
       }
     }
 
