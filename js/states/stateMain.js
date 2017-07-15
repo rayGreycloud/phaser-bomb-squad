@@ -2,19 +2,8 @@ var StateMain = {
 
     preload: function () {
       var mapPath = `assets/maps/map${level}.json`;
-
-      // Load robot spritesheet
-      game.load.spritesheet('robot', 'assets/images/main/robot.png', 80, 111, 28);
-      // Load tiles and tilemap
-      game.load.image('tiles', 'assets/images/tiles.png');
       game.load.tilemap('map', mapPath, null, Phaser.Tilemap.TILED_JSON);
-      // Load gamepad
-      game.load.spritesheet('arrow', 'assets/images/arrowButtons.png', 60, 60, 4);
-      // Load monster
-      game.load.spritesheet('monster', 'assets/images/main/monsters.png', 50, 50, 2);
-      // Load timer bars
-      game.load.image('bar1', 'assets/images/timer/bar1.png');
-      game.load.image('bar2', 'assets/images/timer/bar2.png');
+
     },
 
     create: function () {

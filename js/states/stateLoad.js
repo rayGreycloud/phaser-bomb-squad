@@ -16,16 +16,13 @@ var StateLoad = {
     game.load.spritesheet('soundButtons', 'assets/images/ui/soundButtons-blue.png', 44, 44 , 4);
     game.load.audio('backgroundMusic', 'assets/sounds/background/background.mp3');
     // game.load.audio('elephant', 'assets/sounds/sfx/elephant.mp3');
-    // Load robot spritesheet
+
     game.load.spritesheet('robot', 'assets/images/main/robot.png', 80, 111, 28);
-    // Load tiles and tilemap
     game.load.image('tiles', 'assets/images/tiles.png');
 
-    // Load gamepad
     game.load.spritesheet('arrow', 'assets/images/arrowButtons.png', 60, 60, 4);
-    // Load monster
     game.load.spritesheet('monster', 'assets/images/main/monsters.png', 50, 50, 2);
-    // Load timer bars
+
     game.load.image('bar1', 'assets/images/timer/bar1.png');
     game.load.image('bar2', 'assets/images/timer/bar2.png');
   },
