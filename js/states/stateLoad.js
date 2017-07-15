@@ -15,7 +15,10 @@ var StateLoad = {
     game.load.spritesheet('buttons', 'assets/images/ui/buttons-red.png', 265, 75);
     game.load.spritesheet('soundButtons', 'assets/images/ui/soundButtons-blue.png', 44, 44 , 4);
     game.load.audio('backgroundMusic', 'assets/sounds/background/background.mp3');
-    // game.load.audio('elephant', 'assets/sounds/sfx/elephant.mp3');
+    game.load.audio('boom', 'assets/sounds/sfx/boom.mp3');
+    game.load.audio('collect', 'assets/sounds/sfx/collect.mp3');
+    game.load.audio('jump', 'assets/sounds/sfx/jump.mp3');
+    game.load.audio('tick', 'assets/sounds/sfx/tick.mp3');
 
     game.load.spritesheet('robot', 'assets/images/main/robot.png', 80, 111, 28);
     game.load.image('tiles', 'assets/images/tiles.png');
